@@ -1,19 +1,27 @@
-export interface IPerson {
+import {Entity} from "./index";
 
-    name:string;
-    age: number;
+export interface Ifamily extends Entity{
+    Familyname:string[];
+}
+
+
+export interface Iperson extends Entity{
+    PersonName:string;
+    age:number;
 
 }
 
-export interface IOrganization {
-
-    name:string;
-    owners: INamed[]
+// Business (is an Entity)
+    // has owner
+export interface IBuissness extends Entity{
+    BuisnessName:string;
+    owner:string[];
 
 }
 
-export interface INamed {
+// Farm (is a Location, is a Business)
+export interface IFarm extends IBuissness{
 
-    name:string;
+    FarmLocation:string;
 
 }
