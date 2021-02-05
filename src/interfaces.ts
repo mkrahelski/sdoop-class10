@@ -1,11 +1,16 @@
-import {Entity} from "./index";
 
-export interface Ifamily extends Entity{
-    Familyname:string[];
+
+// export interface Entity {
+//     type:string;
+
+// }
+
+export interface Ifamily {
+    People:Iperson[];
 }
 
 
-export interface Iperson extends Entity{
+export interface Iperson {
     PersonName:string;
     age:number;
 
@@ -13,7 +18,7 @@ export interface Iperson extends Entity{
 
 // Business (is an Entity)
     // has owner
-export interface IBuissness extends Entity{
+export interface IBuissness{
     BuisnessName:string;
     owner:string[];
 

@@ -6,17 +6,92 @@ import { Ifamily, Iperson, IBuissness, IFarm } from './interfaces';
 // Family (Groups People, is an Entity)
 
 
+ class Entity {    
+    type:string; //person, place, or thing, buisness or animal, or bigAnimal 
+}
 
 
-function compose<P extends Constructor>(...mixins:Array<(Source:P)=>P>){​​​​
+class Person extends Entity implements Iperson {
 
-    return mixins.reduce(( lastMixin, mixin ) => {​​​​
+    PersonName:string;
+    age:number;
+
+    constructor(fullname:string, age:number){
+        super();
+        this.PersonName = fullname;
+        this.age = age;
+    }   
+
+}
+
+const Jack = new Person("Jack Jackson", 22)
+
+class Family extends Entity implements Ifamily{
+
+    People:Iperson[];
+
+    addToFamily(person:Iperson){
+
+        this.People.push(person);
+    }
+
+}
+
+class Buisness extends Entity implements IBuissness{
+
+    BuisnessName:string;
+    owner:string[];
+
+    addToOwners(person:string){
+
+        this.owner.push(person);
+    }
+
+    get stats() {
+        return (this.BuisnessName, this.owner);
+
+    }
+
+}
+
+
+class Farm extends Buisness implements IFarm {
+
+    FarmLocation:string;
+
+    constructor(farmLocation:string, BuisnessName:string, ){
+        super();
+        this.FarmLocation = farmLocation;
+        this.BuisnessName = BuisnessName;
+    }
+
+}
+
+const a = new Farm("Space", "SuperSpace");
+a.addToOwners;//good
+
+
+const x = new Buisness;
+
+console.log(x.stats);
+
+
+
+
+
+
+
+
+
+// function compose<P extends Constructor>(...mixins:Array<(Source:P)=>P>){​​​​
+
+//     return mixins.reduce(( lastMixin, mixin ) => {​​​​
     
-    return mixin(lastMixin as P);
+//     return mixin(lastMixin as P);
     
-    }​​​​, class {​​​​}​​​​);
+//     }​​​​, class {​​​​}​​​​);
     
-}​​​​
+// }​​​​
 
 // // Pet (is an Animal, has a name, belongs to a person or family)
 
@@ -76,8 +151,6 @@ function isHorse<Animal extends Constructor>(animal:Animal ){
 
 }
 
-const Horse = compose(isHorse, isLarge, isAnimal)
-console.log(Horse)
 
 
 
@@ -114,6 +187,3 @@ class Trailer extends Vehicle {
     // Cattle Trailer (can hold 20 Large Animals)
     // Small Trailer (can hold 1 large animal)
 
-export class Entity {    
-    type:string; //person, place, or thing, buisness or animal, or bigAnimal 
-}

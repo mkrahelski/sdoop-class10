@@ -1,8 +1,8 @@
 import { setUncaughtExceptionCaptureCallback } from "process";
-import { INamed, IOrganization, IPerson } from "./Exinterfaces";
+import { INamed, IOrganization, IPerson, } from "./Exinterfaces";
 
 
-class Entity{
+class Entity implements Entity{
 
     name: string;
 
