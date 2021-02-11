@@ -1,189 +1,257 @@
-type Constructor = new (...args:any[]) => {​​​​}​​​​;
+type Constructor = new (...args:any[]) => {};
 
-import { Ifamily, Iperson, IBuissness, IFarm } from './interfaces';
-
-// Person (is an Entity)
-// Family (Groups People, is an Entity)
+import { IFamily, IPerson, IBusiness, IFarm, Entity, IAnimal, IVehicle, ITrailer} from './interfaces';
 
 
- class Entity {    
-    type:string; //person, place, or thing, buisness or animal, or bigAnimal 
-}
 
+// this is person class i can add a new person by writing first and last name plus his age and also we can add a pet !.
 
-class Person extends Entity implements Iperson {
+class Person  implements IPerson {
 
-    PersonName:string;
     age:number;
+    haveAPet:Entity[] = []
 
-    constructor(fullname:string, age:number){
-        super();
-        this.PersonName = fullname;
-        this.age = age;
-    }   
+    constructor(public firstname:string, public lastname:string, public Age:number){
+
+    }
+
+    get name() {
+        return `${this.firstname} ${this.lastname} ${this.Age}`
+    }
+
+    gotAPet(pet:Entity){
+        this.haveAPet.push(pet);
+
+    }
+
+
 
 }
+// testing person
 
-const Jack = new Person("Jack Jackson", 22)
+// const trying = new Person('   ', '    ', 22)
+// console.log(trying);
 
-class Family extends Entity implements Ifamily{
 
-    People:Iperson[];
 
-    addToFamily(person:Iperson){
 
-        this.People.push(person);
+// family class: it allows us to add new family members and new families plus we can add a pet !.
+
+class Family implements IFamily {
+
+    name: string
+    familyMembers: Entity[] = [];
+    haveAPet: Entity[] = [];
+
+
+
+    get displayMembers(){
+        return this.familyMembers.map(family => family.name).join(",");
+    }
+
+    addNewMember(member:Entity){
+        this.familyMembers.push(member);
+    }
+    gotAPet(pet:Entity){
+        this.haveAPet.push(pet);
+
+    }
+}
+
+        // testing person and family together.
+
+        // const famFam = new family()
+
+        // famFam.familyName = "alshahoud";
+
+        // const famFam2 = new family()
+
+        // famFam2.familyName = "khan";
+
+        // const trying = new Person('angham', 'alshahoud', 22)
+        // const trying2 = new Person('aliah', 'alshahoud', 27)
+
+        // const trying3 = new Person('jack', 'khan', 12)
+        // const trying4 = new Person('mike', 'khan', 30)
+
+        // famFam.addNewMember(trying)
+        // famFam.addNewMember(trying2)
+        // famFam2.addNewMember(trying3)
+        // famFam2.addNewMember(trying4)
+
+        // console.log(famFam, 'second family ' , famFam2)
+
+// this is a business class allows us to add new business and get what businesses we have.
+
+class Business implements IBusiness{
+    owner_s: string[] = [];
+    businessName: Entity[] = [];
+
+    get Business(){
+        return this.businessName.map(business => business.name).join(",");
+    }
+
+    addNewBusiness(business:Entity){
+        this.businessName.push(business);
     }
 
 }
 
-class Buisness extends Entity implements IBuissness{
+// testing business class by adding a family as a new business.
 
-    BuisnessName:string;
-    owner:string[];
+// const newFam = new family()
+// newFam.name = 'jakijak';
 
-    addToOwners(person:string){
+// const buisness1 = new buisness()
+// buisness1.owner_s = ['angham, aliah, jake'];
 
-        this.owner.push(person);
+// buisness1.addNewBusiness(newfam);
+// console.log(buisness1)
+
+// farm class:
+
+class Farm implements IFarm{
+    farmLocation: string
+    farmName: Entity[] =[];
+
+
+    get name(){
+        return ""
     }
 
-    get stats() {
-        return (this.BuisnessName, this.owner);
+    constructor(public nameFarm: Farm["name"]){
 
     }
 
+    addAnAnimal(animal:Entity){
+        this.farmName.push(animal)
+    }
 }
 
+//testing the farm class by adding a farm as a buisness.
 
-class Farm extends Buisness implements IFarm {
+// const fame1 = new farm("alshahoudies")
+// fame1.FarmLocation = "1365 highway 33 west ";
 
-    FarmLocation:string;
+// const business = new business()
 
-    constructor(farmLocation:string, BuisnessName:string, ){
-        super();
-        this.FarmLocation = farmLocation;
-        this.BuisnessName = BuisnessName;
+// buisis.addNewBusiness(fame1)
+// buisis.owner_s = ["angham, me, and myself"]
+
+// console.log(business)
+
+class Animal implements IAnimal{
+    size: string; // small, med, lrg
+    isPet: boolean;
+
+    get name(){
+        return (
+            `${this.animal_name} ${this.animalSize}`
+        )
+
     }
 
+    constructor(public animalType: string, public animal_name: string, public animalSize: Animal["size"]){
+
+    }
 }
 
-const a = new Farm("Space", "SuperSpace");
-a.addToOwners;//good
+// testing with adding a pet into a person, farm, and to a family.
+
+// const newAnimal = new animal("cat","jody","small" )
+// newAnimal.isPet= true;
+// const farm2 = new farm("alshahoudies")
+// farm2.FarmLocation = "canada, B.C, KELOWNA"
+
+// const trying = new Person('angham', 'alshahoud', 22)
+
+// const newfam = new family()
+// newfam.name = 'jakijak';
+
+// farm2.addAnAnimal(newAnimal)
+// trying.gotApet(newAnimal);
+// newfam.gotApet(newAnimal)
+
+// console.log(farm2, trying, newfam)
 
 
-const x = new Buisness;
-
-console.log(x.stats);
 
 
 
-
-
-
-
-
-
-// function compose<P extends Constructor>(...mixins:Array<(Source:P)=>P>){​​​​
-
-//     return mixins.reduce(( lastMixin, mixin ) => {​​​​
-    
-//     return mixin(lastMixin as P);
-    
-//     }​​​​, class {​​​​}​​​​);
-    
-// }​​​​
-
-// // Pet (is an Animal, has a name, belongs to a person or family)
-
-// function isaPet<Animal extends Constructor>(animal:Animal ){
-
-//     return class extends animal{
-
-//         pet(){
-
-//         }
-//         name:string; 
-//     }
-
+// class Vehicle implements IVehicle{
+//     towing:boolean;
 // }
+// class Truck implements IVehicle{
+//     towing:true;
+// }
+// class Car implements IVehicle{
+//     towing:false
+// }
+// class Trailer implements ITrailer {
+//     largeAnimals: number;
+// }
+// class SmallTrailer implements ITrailer{
+//     largeAnimals:1;
+// }
+//
+// class MediumTrailer implements ITrailer {
+//     largeAnimals:2;
+// }
+// class LargeTrailer implements ITrailer {
+//     largeAnimals:20;
+// }
+// const horseTrailer = new LargeTrailer();
+//
+// const cattleTrailer = new MediumTrailer();
+//
+// const smallTrailer = new SmallTrailer();
 
-//Farm Animal (is an Animal, belongs to a Farm)
-function isAnimal<Animal extends Constructor>(animal:Animal ){
 
-    return class extends animal{
-        isAnimal(){
 
-        }
-        // name:string; 
-        // owner:Iperson;
-        type:string = "Animal";
-        
+ class Trailer implements ITrailer{
+    public trailerSize:number;
+     //how many animals can fit
+    private canFit:number;
+    public animalWeight:number;
 
+    protected calcWeight(){
+        if(this.animalWeight >= 100){
+            return}
     }
 
-}
+   public set setTrailerSize(_trailerSize:number){
+        switch(_trailerSize){
+            case 1:
+                this.canFit = 1;
+                break; 
+            case 2:
+                this.canFit = 5;
+                break; 
+            case 3:
+                this.canFit = 20;
+                break; 
+            default: console.log("Please enter a Trailer Size between 1-3");
+                break;
+            }
+   } 
 
-// // Horse (is a Farm Animal, has a name, is a Large Animal)
-// // Cow (is a Farm Animal, is a Large Animal)
-function isLarge<Animal extends Constructor>(animal:Animal ){
+   public get getTrailerSize(){
+       return this.trailerSize;
+   }
 
-    return class extends animal{
-        // isLarge(){
+   public get getAnimalsCanFit(){
+       return this.canFit;
+   }
 
-        // }
-        
-    //    name:string;
-    //    owner:IFarm;
-
-        isLarge:Boolean = true;
-
+    constructor(trailerSize:number){
+        this.trailerSize = trailerSize;
+        this.setTrailerSize = trailerSize;
     }
-
-}
-
-function isHorse<Animal extends Constructor>(animal:Animal ){
-
-    return class extends animal{
-    
-        name:string = "Horse"; 
-        // owner:Iperson;
-    }
-
-}
+ }
+const smallTrailer = new Trailer(2);
+const medTrailer = new Trailer(2);
+const lrgTrailer = new Trailer(3);
 
 
 
-
-
-
-
-// Dog // Cat
-
-class AnimalType{
-    name:string;
-
-}
-
-
-//vehicles
-    // Truck (is a Vehicle, can tow)
-    // Car (is a Vehicle, cannot tow)
-
-class Vehicle {
-    type:string;
-    canTow:Boolean;
-}
-
-
-class Trailer extends Vehicle {
-    type = "";
-    size:string;
-    canHold:number
-    animalSize:string = "Large"; 
-
-}
-
-    // Horse Trailer (can hold 2 large animals)
-    // Cattle Trailer (can hold 20 Large Animals)
-    // Small Trailer (can hold 1 large animal)
 
