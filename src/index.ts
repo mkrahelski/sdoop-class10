@@ -254,6 +254,4 @@ const lrgTrailer = new Trailer(3);
 
 
 
-console.log(smallTrailer);
-
 
